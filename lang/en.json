@@ -1,0 +1,8 @@
+{
+    "welcome": "Welcome!",
+    "sign_in": "Sign In",
+    "e_mail": "E-mail",
+    "password": "Password",
+    "no_good": "No good!!!!!!!!!!!, {name}",
+    "totally_not_good": "TOTALLY not good..., {name}"
+}
