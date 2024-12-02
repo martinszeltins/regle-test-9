@@ -1,53 +1,5 @@
 <template>
     <div>
-        <div class="fixed top-5 right-5 bg-gray-200 border border-gray-400 w-[450px] h-[calc(100vh-50px)] overflow-x-hidden overflow-y-auto text-sm p-4 rounded">
-            <pre>{{ r$ }}</pre>
-        </div>
-
-        <div class="fixed top-5 left-5 bg-gray-200 border border-gray-400 w-[330px] overflow-hidden text-sm p-4 rounded">
-            <pre>
-[ ] Backend validation, rule
-    parsing (!) - (backend errors
-    dont get added)
-[x] Conditional rules
-[x] Dynamic, custom error messages
-    with i18n, (minWeight example)
-    from LiPO.
-[ ] No frontend rule, only backend
-    rule (does it work?) (!)
-[x] Easy, custom rules with custom
-    message
-[x] Get dirty fields
-[x] Collections
-[ ] Live, lazy validation (validate
-    does not work at all)
-[ ] Resetting validation
-    (BE errors dont get added after
-    reset + validate)
-[ ] Clear backend validation
-[ ] Trigger validation for
-    individual fields.
-[ ] touch() and touched, also check
-    for collections.
-[ ] reset validation for specific
-    fields only.
-[x] easily get which fields are
-    required so we can show *
-[ ] Test if we can access parent
-    fields in validation rule.
-[ ] Swap all rules with another
-    set of rules.
-[ ] Backend message appears on first
-    validation() call. But if we
-    call reset and then validate()
-    again, the backend message
-    does not show up.
-[ ] Rule function pass arguments.
-[ ] Clear BE errors on change.
-[ ] $each: (_, index) any type!?
-            </pre>
-        </div>
-
         <h1 class="font-bold text-2xl">New Shipment</h1>
 
         <div class="bg-white shadow-lg rounded-lg p-5 mt-5">
@@ -111,26 +63,6 @@
                 Save
             </button>
 
-            <button @click="someCondition = !someCondition" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
-                Toggle Condition: {{ someCondition ? 'ON' : 'OFF' }}
-            </button>
-
-            <button @click="someNumber++" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
-                Some Number: {{ someNumber }}
-            </button>
-
-            <button @click="toggleLocale" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
-                Toggle Locale
-            </button>
-
-            <button @click="getDirtyFields" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
-                Get Dirty Fields
-            </button>
-
-            <button @click="addShipmentItem" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
-                Add Shipment Item
-            </button>
-
             <button @click="resetValidation" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
                 Reset Validation
             </button>
@@ -143,7 +75,7 @@
     import type { RegleExternalErrorTree } from '@regle/core'
     import { required, minLength, minValue, applyIf, withMessage, withParams } from '@regle/rules'
 
-    const { t, locale, setLocale } = useI18n()
+    const { t } = useI18n()
 
     const someCondition = ref(true)
     const someNumber = ref(4)
@@ -227,18 +159,6 @@
     })
 
     const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
-
-    const toggleLocale = () => {
-        setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
-    }
-
-    const addShipmentItem = () => {
-        form.value.shipmentItems.push({ name: '', quantity: 1, weight: '' })
-    }
-
-    const getDirtyFields = () => {
-        console.log(r$.$extractDirtyFields())
-    }
 
     const validateForm = async () => {
         const result = await r$.$validate()
